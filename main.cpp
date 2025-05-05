@@ -1,4 +1,7 @@
 #include <iostream>
+#include "src/common.h"
+
+using namespace computerClub;
 
 int main(int argc, char* argv[]){
     if(argc < 2) {
