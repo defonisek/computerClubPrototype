@@ -9,7 +9,7 @@ using namespace computerClub;
 ClubDriver::ClubDriver(){ 
     clientHandler = new ClientHandler();
     parser = new Parser();
-    club = {0, 0, {}, {}, {}, "", "", 0, 0};
+    club = {0, 0, {}, {}, {}, {}, "", "", 0, 0};
 }
 
 ClubDriver::~ClubDriver(){
@@ -37,7 +37,7 @@ void ClubDriver::process(std::string &filename){
         if(!std::getline(file, line))
             throw std::invalid_argument("");
         if(parser->numLine(line))
-            club.tableAmount = std::stoi(line);
+            club.hourlyRate = std::stoi(line);
         else
             throw std::invalid_argument("");
     }
