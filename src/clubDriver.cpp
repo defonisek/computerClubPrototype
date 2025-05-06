@@ -42,7 +42,7 @@ void ClubDriver::process(std::string &filename){
             throw std::invalid_argument("");
     }
     catch(...){
-        std::cerr << "ERR: Not enough data in the provided file.";
+        std::cerr << "ERR: Not enough or incorrect data in the provided file (check first 3 lines).";
         return;
     }
     std::cout << club.openingTime << "\n";
@@ -55,7 +55,12 @@ void ClubDriver::process(std::string &filename){
     while(std::getline(file, line)){
         std::cout << line << "\n";
         event.emplace_back(line);
-        parser->parseEvent(event, club.tableAmount, club.latestTime);
+        try{
+            parser->parseEvent(event, club.tableAmount, club.latestTime);
+        }
+        catch(...){
+            return;
+        }
         clientHandler->handle(event, club);
         event.clear();
     }
