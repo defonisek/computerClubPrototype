@@ -9,7 +9,7 @@ using namespace computerClub;
 ClubDriver::ClubDriver(){ 
     clientHandler = new ClientHandler();
     parser = new Parser();
-    club = {0, 0, {}, {}, {}, "", "", 0, ""};
+    club = {0, 0, {}, {}, {}, "", "", 0, 0};
 }
 
 ClubDriver::~ClubDriver(){
@@ -47,7 +47,7 @@ void ClubDriver::process(std::string &filename){
     while(std::getline(file, line)){
         std::cout << line << "\n";
         event.emplace_back(line);
-        parser->parseEvent(event);
+        parser->parseEvent(event, club.tableAmount, club.latestTime);
         clientHandler->handle(event);
         event.clear();
     }
