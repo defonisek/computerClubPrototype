@@ -9,8 +9,8 @@ using namespace computerClub;
 bool Parser::isValidTime(const Time &time){
     if(time.size() != 5 || time[2] != ':')
         return false;
-    for(int i:{0, 1, 3, 5}){
-        if(time[i] < '0' || time[i] < '9')
+    for(int i:{0, 1, 3, 4}){
+        if(!isdigit(time[i]))
             return false;
     }
     const int hours = (time[0] - '0') * 10 + (time[1] - '0');
