@@ -14,6 +14,7 @@ namespace computerClub{
 		int revenue;
         std::optional<std::string> currClient;
 		Time occupiedTime;
+        int minutes;
         int tableNumber;
 	};
 
