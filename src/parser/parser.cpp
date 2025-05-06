@@ -28,6 +28,7 @@ bool Parser::isValidClient(const std::string &name){
         if(!(isalnum(c) || c == '_' || c == '-'))
             throw std::invalid_argument("");
     }
+    return true;
 }
 
 bool Parser::numLine(std::string &line){
