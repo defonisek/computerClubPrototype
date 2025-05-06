@@ -28,6 +28,8 @@ void ClubDriver::process(std::string &filename){
         if(!std::getline(file, line))
             throw std::invalid_argument("");
         std::pair<std::string, std::string> openCloseT = parser->openCloseTime(line);
+        if(openCloseT.first == "")
+            throw std::invalid_argument("");
         club.openingTime = openCloseT.first;
         club.closingTime = openCloseT.second;
         if(!std::getline(file, line))
@@ -37,6 +39,7 @@ void ClubDriver::process(std::string &filename){
     }
     catch(...){
         std::cerr << "ERR: Not enough data in the provided file.";
+        return;
     }
     std::cout << club.openingTime << "\n";
     club.tables.reserve(club.tableAmount);
