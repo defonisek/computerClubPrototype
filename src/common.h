@@ -32,7 +32,7 @@ namespace computerClub{
 		Time openingTime;
 		Time closingTime;
 		int hourlyRate;	
-        Time latestTime;
+        int latestTime;
     };
 }
 #endif

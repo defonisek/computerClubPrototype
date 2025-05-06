@@ -7,12 +7,16 @@
 namespace computerClub{
     class Parser{
         public:
-            bool numLine(std::string &line){return true;};
+            bool numLine(std::string &line);
 
-            std::pair<std::string, std::string> openCloseTime(std::string &line){std::pair<std::string, std::string> a; return a;};
+            std::pair<Time, Time> openCloseTime(std::string &line);
 
-            std::vector<std::string> parseEvent(std::string &line){std::vector<std::string> a; return a;};
+            void parseEvent(std::vector<std::string> &line, int tables, int &latestTime); 
 
+        private:
+            bool isValidTime(const Time &time);
+            bool isValidClient(const std::string &name);
+            int timeToMinutes(const Time &time);
     };
 }
 #endif
