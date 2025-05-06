@@ -14,6 +14,8 @@ namespace computerClub{
     class ClientHandler{
         public:
             void handle(const std::vector<std::string> &event, Club &club);
+            std::string minutesToTime(int minutes);
+            void endOfDay(Club &club);
         private:
             int timeToMinutes(const Time &time);
             void handleClientArrived(const std::vector<std::string> &event, Club &club);
@@ -22,7 +24,6 @@ namespace computerClub{
             void handleClientLeft(const std::vector<std::string> &event, Club &club);
             void removeFromQueue(const std::string &clientName, Club& club);
             void freeTable(const Time &leaveTime, int tableNum, Club &club);
-            Time addMinutes(const Time &time, int minutes);
             void seatClient(const Time &time, const std::string &clientName, int tableNum, Club &club);
     };
 }

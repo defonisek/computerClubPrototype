@@ -35,11 +35,25 @@ void ClientHandler::handle(const std::vector<std::string> &event, Club &club){
     }
 }
 
+void ClientHandler::endOfDay(Club &club){
+    std::vector<std::string> remaining;
+    for(const auto &[name, _] : club.clientTableMap){
+        remaining.emplace_back(name);
+    }
+    std::sort(remaining.begin(), remaining.end());
+    club.clientLine = std::queue<std::string>();
+    for(const auto &client : remaining){
+        std::cout << club.closingTime << " " << 11 << " " << client << "\n";
+        freeTable(club.closingTime, club.clientTableMap[client], club);
+        club.clientIDMap.erase(client);
+        club.clientTableMap.erase(client);
+    }
+}
+
 void ClientHandler::handleClientArrived(const std::vector<std::string> &event, Club &club){
     const std::string &clientName = event[2];
     if(timeToMinutes(event[0]) < timeToMinutes(club.openingTime) || 
         timeToMinutes(event[0]) > timeToMinutes(club.closingTime)){
-            // std::cout << timeToMinutes(event[0]) << " " << timeToMinutes(club.openingTime) << " " << timeToMinutes(club.closingTime) << "\n";
             throw std::runtime_error("NotOpenYet");
     }
     if(club.clientTableMap.count(clientName))
@@ -95,8 +109,11 @@ void ClientHandler::handleClientLeft(const std::vector<std::string> &event, Club
         club.clientIDMap.erase(clientName);
         club.clientTableMap.erase(clientName);
     }
-    else
+    else{
         freeTable(event[0], tableNum, club);
+        club.clientIDMap.erase(clientName);
+        club.clientTableMap.erase(clientName);
+    }
 }
 
 void ClientHandler::freeTable(const Time &leaveTime, int tableNum, Club &club){
@@ -104,7 +121,7 @@ void ClientHandler::freeTable(const Time &leaveTime, int tableNum, Club &club){
     int duration = timeToMinutes(leaveTime) - timeToMinutes(table.occupiedTime);
     int hours = (duration + 59) / 60;
     table.revenue += hours * club.hourlyRate;
-    table.occupiedTime = addMinutes(table.occupiedTime, duration);
+    table.minutes += duration;
     table.currClient.reset();
     club.freeTables++;
     if(!club.clientLine.empty()){
@@ -121,7 +138,7 @@ void ClientHandler::seatClient(const Time &time, const std::string &clientName, 
     club.clientTableMap[clientName] = tableNum;
     club.clientIDMap[clientName] = 2;
     club.freeTables--;
-    std::cout << time << " " << clientName << " " << 12 << " " << tableNum << "\n";
+    std::cout << time << " " << 12 << " " << clientName << " " << tableNum << "\n";
 }
 
 void ClientHandler::removeFromQueue(const std::string &clientName, Club& club){
@@ -135,10 +152,9 @@ void ClientHandler::removeFromQueue(const std::string &clientName, Club& club){
     club.clientLine = newQueue;
 }
 
-Time ClientHandler::addMinutes(const Time &time, int minutes){
-    int total = timeToMinutes(time) + minutes;
-    int hours = total / 60;
-    int mins = total % 60;
+std::string ClientHandler::minutesToTime(int minutes){
+    int hours = minutes / 60;
+    int mins = minutes % 60;
     char buffer[6];
     snprintf(buffer, sizeof(buffer), "%02d:%02d", hours, mins);
     return std::string(buffer);
