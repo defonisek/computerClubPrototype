@@ -48,7 +48,7 @@ void ClubDriver::process(std::string &filename){
     std::cout << club.openingTime << "\n";
     club.tables.reserve(club.tableAmount);
     for(int i=0;i<club.tableAmount;++i){
-        club.tables.emplace_back(Table{0, std::nullopt, "", i});
+        club.tables.emplace_back(Table{0, std::nullopt, "", 0, i});
     }
     club.freeTables = club.tableAmount;
     std::vector<std::string> event;
@@ -59,7 +59,9 @@ void ClubDriver::process(std::string &filename){
         clientHandler->handle(event, club);
         event.clear();
     }
-    std::cout << club.closingTime;
+    clientHandler->endOfDay(club);
+    std::cout << club.closingTime << "\n";
+    for(const auto &table : club.tables){
+        std::cout << table.tableNumber + 1 << " " << table.revenue << " " << clientHandler->minutesToTime(table.minutes) << "\n";
+    }
 }
-
-
