@@ -9,10 +9,14 @@ namespace computerClub{
         public:
             bool numLine(std::string &line);
 
-            std::pair<std::string, std::string> openCloseTime(std::string &line);
+            std::pair<Time, Time> openCloseTime(std::string &line);
 
-            void parseEvent(std::vector<std::string> &line); 
+            void parseEvent(std::vector<std::string> &line, int tables, int &latestTime); 
 
+        private:
+            bool isValidTime(const Time &time);
+            bool isValidClient(const std::string &name);
+            int timeToMinutes(const Time &time);
     };
 }
 #endif
