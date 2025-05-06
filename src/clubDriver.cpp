@@ -25,6 +25,8 @@ void ClubDriver::process(std::string &filename){
             throw std::invalid_argument("");
         if(parser->numLine(line))
             club.tableAmount = std::stoi(line);
+        else
+            throw std::invalid_argument("");
         if(!std::getline(file, line))
             throw std::invalid_argument("");
         std::pair<std::string, std::string> openCloseT = parser->openCloseTime(line);
@@ -36,6 +38,8 @@ void ClubDriver::process(std::string &filename){
             throw std::invalid_argument("");
         if(parser->numLine(line))
             club.tableAmount = std::stoi(line);
+        else
+            throw std::invalid_argument("");
     }
     catch(...){
         std::cerr << "ERR: Not enough data in the provided file.";
