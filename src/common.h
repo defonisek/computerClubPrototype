@@ -10,16 +10,11 @@
 namespace computerClub{
     using Time = std::string;
 
-	struct Client{
-        std::string name;
-        std::optional<int> currTable;
-        int currID;
-    };
-
 	struct Table{
 		int revenue;
         std::optional<std::string> currClient;
 		Time occupiedTime;
+        int minutes;
         int tableNumber;
 	};
 
@@ -29,6 +24,7 @@ namespace computerClub{
         std::vector<Table> tables;
         std::queue<std::string> clientLine;
         std::unordered_map<std::string, int> clientTableMap;
+        std::unordered_map<std::string, int> clientIDMap;
 		Time openingTime;
 		Time closingTime;
 		int hourlyRate;	

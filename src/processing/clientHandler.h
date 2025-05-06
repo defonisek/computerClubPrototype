@@ -4,13 +4,27 @@
 #include "../common.h"
 
 namespace computerClub{
+    struct GeneratedEvent{
+        Time time;
+        std::string clientOrMessage;
+        int eventId;
+        std::string additionalParam;
+    };
+
     class ClientHandler{
         public:
-            ClientHandler(){};
-            void handle(std::vector<std::string> &event){};
-            void setClub(Club club){club_ = club;};
+            void handle(const std::vector<std::string> &event, Club &club);
+            std::string minutesToTime(int minutes);
+            void endOfDay(Club &club);
         private:
-            Club club_;
+            int timeToMinutes(const Time &time);
+            void handleClientArrived(const std::vector<std::string> &event, Club &club);
+            void handleClientSit(const std::vector<std::string> &event, Club &club);
+            void handleClientWait(const std::vector<std::string> &event, Club &club);
+            void handleClientLeft(const std::vector<std::string> &event, Club &club);
+            void removeFromQueue(const std::string &clientName, Club& club);
+            void freeTable(const Time &leaveTime, int tableNum, Club &club);
+            void seatClient(const Time &time, const std::string &clientName, int tableNum, Club &club);
     };
 }
 #endif

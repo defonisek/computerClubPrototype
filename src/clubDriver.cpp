@@ -9,7 +9,7 @@ using namespace computerClub;
 ClubDriver::ClubDriver(){ 
     clientHandler = new ClientHandler();
     parser = new Parser();
-    club = {0, 0, {}, {}, {}, "", "", 0, 0};
+    club = {0, 0, {}, {}, {}, {}, "", "", 0, 0};
 }
 
 ClubDriver::~ClubDriver(){
@@ -37,7 +37,7 @@ void ClubDriver::process(std::string &filename){
         if(!std::getline(file, line))
             throw std::invalid_argument("");
         if(parser->numLine(line))
-            club.tableAmount = std::stoi(line);
+            club.hourlyRate = std::stoi(line);
         else
             throw std::invalid_argument("");
     }
@@ -48,19 +48,20 @@ void ClubDriver::process(std::string &filename){
     std::cout << club.openingTime << "\n";
     club.tables.reserve(club.tableAmount);
     for(int i=0;i<club.tableAmount;++i){
-        club.tables.emplace_back(Table{0, std::nullopt, "", i});
+        club.tables.emplace_back(Table{0, std::nullopt, "", 0, i});
     }
     club.freeTables = club.tableAmount;
-    clientHandler->setClub(club);
     std::vector<std::string> event;
     while(std::getline(file, line)){
         std::cout << line << "\n";
         event.emplace_back(line);
         parser->parseEvent(event, club.tableAmount, club.latestTime);
-        clientHandler->handle(event);
+        clientHandler->handle(event, club);
         event.clear();
     }
-    std::cout << club.closingTime;
+    clientHandler->endOfDay(club);
+    std::cout << club.closingTime << "\n";
+    for(const auto &table : club.tables){
+        std::cout << table.tableNumber + 1 << " " << table.revenue << " " << clientHandler->minutesToTime(table.minutes) << "\n";
+    }
 }
-
-
