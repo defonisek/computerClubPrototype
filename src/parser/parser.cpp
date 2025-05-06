@@ -52,7 +52,7 @@ std::pair<Time, Time> Parser::openCloseTime(std::string &line){
     Time first = line.substr(0, spacePos);
     Time second = line.substr(spacePos + 1); 
     std::pair<Time, Time> res = {first, second};
-    if(!(isValidTime(res.first) || isValidTime(res.second)))
+    if(!(isValidTime(res.first) && isValidTime(res.second)))
         return {"", ""};
     else
         return res;
