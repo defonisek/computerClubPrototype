@@ -51,13 +51,12 @@ void ClubDriver::process(std::string &filename){
         club.tables.emplace_back(Table{0, std::nullopt, "", i});
     }
     club.freeTables = club.tableAmount;
-    clientHandler->setClub(club);
     std::vector<std::string> event;
     while(std::getline(file, line)){
         std::cout << line << "\n";
         event.emplace_back(line);
         parser->parseEvent(event, club.tableAmount, club.latestTime);
-        clientHandler->handle(event);
+        clientHandler->handle(event, club);
         event.clear();
     }
     std::cout << club.closingTime;
