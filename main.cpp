@@ -1,5 +1,6 @@
 #include <iostream>
 #include "src/common.h"
+#include "src/clubDriver.h"
 
 using namespace computerClub;
 
@@ -9,5 +10,6 @@ int main(int argc, char* argv[]){
         return 1;
     }
     std::string filename = argv[1];
-    
+    ClubDriver clubDriver;
+    clubDriver.process(filename);
 }

@@ -7,11 +7,11 @@
 namespace computerClub{
     class Parser{
         public:
-            bool numLine(std::string &line);
+            bool numLine(std::string &line){return true;};
 
-            std::pair<std::string, std::string> openCloseTime(std::string &line);
+            std::pair<std::string, std::string> openCloseTime(std::string &line){std::pair<std::string, std::string> a; return a;};
 
-            std::vector<std::string> parseEvent(std::string &line);
+            std::vector<std::string> parseEvent(std::string &line){std::vector<std::string> a; return a;};
 
     };
 }
