@@ -28,10 +28,11 @@ namespace computerClub{
 		int freeTables;
         std::vector<Table> tables;
         std::queue<std::string> clientLine;
-        std::unordered_map<Client, int> clientTableMap;
+        std::unordered_map<std::string, int> clientTableMap;
 		Time openingTime;
 		Time closingTime;
 		int hourlyRate;	
+        Time latestTime;
     };
 }
 #endif
