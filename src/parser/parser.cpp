@@ -19,7 +19,7 @@ bool Parser::isValidTime(const Time &time){
 }
 
 int Parser::timeToMinutes(const Time &time){
-    return (time[3] - '0') * 10 + (time[4] - '0');
+    return (time[0] - '0') * 10 + (time[1] - '0') * 60 + (time[3] - '0') * 10 + (time[4] - '0');
 }
 
 
