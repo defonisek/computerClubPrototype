@@ -46,8 +46,10 @@ void ClubDriver::process(std::string &filename){
     std::vector<std::string> event;
     while(std::getline(file, line)){
         std::cout << line << "\n";
-        event = parser->parseEvent(line);
+        event.emplace_back(line);
+        parser->parseEvent(event);
         clientHandler->handle(event);
+        event.clear();
     }
     std::cout << club.closingTime;
 }
